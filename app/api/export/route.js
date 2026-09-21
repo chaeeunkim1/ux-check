@@ -15,10 +15,11 @@ export async function POST(request){
   const form=new URLSearchParams(Buffer.concat(chunks).toString('utf8'));
   const format=form.get('format');if(!['markdown','html','json'].includes(format))return reply('지원하지 않는 보고서 형식입니다.',400);
   const raw=JSON.parse(form.get('report')||'null');
-  if(!raw||!['review','compare'].includes(raw.mode)||typeof raw.purpose!=='string'||raw.purpose.length>1500||!raw.purpose.trim()||typeof raw.createdAt!=='string'||!Number.isFinite(Date.parse(raw.createdAt))||typeof raw.model!=='string'||!/^[a-zA-Z0-9._-]{1,80}$/.test(raw.model)||typeof raw.id!=='string'||!/^[a-zA-Z0-9_-]{1,80}$/.test(raw.id))return reply('보고서 내용을 확인할 수 없습니다.',400);
+  if(!raw||!['review','compare','site'].includes(raw.mode)||typeof raw.purpose!=='string'||raw.purpose.length>1500||!raw.purpose.trim()||typeof raw.createdAt!=='string'||!Number.isFinite(Date.parse(raw.createdAt))||typeof raw.model!=='string'||!/^[a-zA-Z0-9._-]{1,80}$/.test(raw.model)||typeof raw.id!=='string'||!/^[a-zA-Z0-9_-]{1,80}$/.test(raw.id))return reply('보고서 내용을 확인할 수 없습니다.',400);
   const normalized=validateReport(raw,raw.mode);
   const reviewDecisions={};for(const issue of normalized.issues){const decision=raw.reviewDecisions?.[issue.id];if(['include','hold','exclude'].includes(decision))reviewDecisions[issue.id]=decision;}
   const report={...normalized,id:raw.id,mode:raw.mode,purpose:raw.purpose,createdAt:raw.createdAt,model:raw.model,reviewDecisions,...(raw.source==='saved-example'?{source:'saved-example'}:{})};
+  if(raw.mode==='site'&&raw.siteContext){const url=new URL(raw.siteContext.url);if(!['http:','https:'].includes(url.protocol)||url.username||url.password||url.href.length>2048)throw new Error('url');report.siteContext={url:url.href,title:String(raw.siteContext.title||'').slice(0,200),scope:String(raw.siteContext.scope||'').slice(0,500)};}
   if(raw.qualityCheck?.performed===true&&['initialCount','removedCount','uncertainCount'].every(k=>Number.isInteger(raw.qualityCheck[k])&&raw.qualityCheck[k]>=0&&raw.qualityCheck[k]<=8))report.qualityCheck={performed:true,initialCount:raw.qualityCheck.initialCount,removedCount:raw.qualityCheck.removedCount,uncertainCount:raw.qualityCheck.uncertainCount};
   if(raw.usage&&Number.isSafeInteger(raw.usage.inputTokens)&&Number.isSafeInteger(raw.usage.outputTokens)&&raw.usage.inputTokens>=0&&raw.usage.outputTokens>=0)report.usage={inputTokens:raw.usage.inputTokens,outputTokens:raw.usage.outputTokens};
   if(Number.isFinite(raw.durationMs)&&raw.durationMs>=0)report.durationMs=raw.durationMs;

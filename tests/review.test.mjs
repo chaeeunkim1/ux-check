@@ -138,3 +138,11 @@ test('saved comparison is unavailable when either screenshot was replaced',async
  assert.equal(canLoadSavedExample({...selected,before:{isSample:false}}),false);
  assert.equal(canLoadSavedExample({...selected,purpose:'다른 업무에 대한 사용자 목적'}),false);
 });
+test('site mode accepts desktop/mobile observations without treating them as before/after improvements',async()=>{
+ const site=await validateReviewInput({...input,mode:'site',after:png,siteFacts:'{"viewport":390}',siteContext:{url:'https://example.com/',title:'Example'}});
+ assert.equal(site.mode,'site');assert.ok(site.after);assert.equal(site.siteContext.url,'https://example.com/');
+ const actual=validateReport({...report,issues:[{...finding,image:'after'}]},'site');assert.equal(actual.issues[0].image,'after');
+ assert.throws(()=>validateReport({...report,issues:[{...finding,status:'resolved'}]},'site'));
+ const text=reportMarkdown({...actual,mode:'site',purpose:input.purpose,createdAt:'2026-09-21T11:00:00Z',model:'test',siteContext:site.siteContext});
+ assert.match(text,/사이트 URL 검수/);assert.match(text,/https:\/\/example.com/);assert.match(text,/모바일/);
+});
