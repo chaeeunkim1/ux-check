@@ -1,0 +1,22 @@
+{
+  "name": "ux-check",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "preflight": "node --env-file=.env.local scripts/preflight.mjs",
+    "check:api": "node --env-file=.env.local scripts/check-api-local.mjs",
+    "sync:env": "node --env-file=.env.local scripts/sync-vercel-env.mjs"
+  },
+  "engines": {
+    "node": "22.x"
+  },
+  "dependencies": {
+    "next": "16.3.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "type": "module"
+}

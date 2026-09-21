@@ -1,0 +1,15 @@
+const base = process.argv[2];
+if (!base) throw new Error("Usage: npm run preflight -- https://your-production-domain");
+const url = new URL(base);
+if (url.protocol !== "https:" && !(url.protocol === "http:" && ["localhost", "127.0.0.1"].includes(url.hostname))) throw new Error("Use HTTPS or a local HTTP URL");
+const health = await fetch(new URL("/api/health", url), { signal: AbortSignal.timeout(30000) });
+if (!health.ok) throw new Error("Public health check failed: " + health.status);
+const status = await health.json();
+if (status.service !== "ux-check") throw new Error("Unexpected application");
+const unauthenticated = await fetch(new URL("/api/setup/check", url), { method: "POST", signal: AbortSignal.timeout(30000) });
+if (unauthenticated.status !== 401) throw new Error("Setup endpoint must reject unauthenticated requests");
+if (!process.env.SETUP_CHECK_TOKEN) throw new Error("SETUP_CHECK_TOKEN is not configured locally");
+const ai = await fetch(new URL("/api/setup/check", url), { method: "POST", headers: { Authorization: "Bearer " + process.env.SETUP_CHECK_TOKEN }, signal: AbortSignal.timeout(65000) });
+const result = await ai.json();
+console.log(JSON.stringify({ checkedAt: new Date().toISOString(), base: url.origin, health: status, unauthenticatedStatus: unauthenticated.status, aiStatus: ai.status, ai: result }, null, 2));
+if (!ai.ok || !result.ok || !result.imageInputVerified) process.exitCode = 1;

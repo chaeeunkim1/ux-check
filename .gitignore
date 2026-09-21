@@ -28,3 +28,13 @@ artifacts/private/
 .DS_Store
 Thumbs.db
 desktop.ini
+.vercel/
+.vercel-cli/
+
+.vercel
+.env*
+!.env.example
+artifacts/submission/
+
+__pycache__/
+*.pyc
