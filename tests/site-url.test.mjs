@@ -10,3 +10,14 @@ test('DNS checks every returned address and pins a validated public address',asy
  await assert.rejects(resolvePublicHost('example.com',async()=>[{address:'8.8.8.8',family:4},{address:'10.0.0.1',family:4}]));
  assert.deepEqual(await resolvePublicHost('example.com',async()=>[{address:'8.8.8.8',family:4}]),{address:'8.8.8.8',family:4});
 });
+test('capture proxy refuses internal HTTP and CONNECT destinations before connecting',async()=>{
+ const {createPublicProxy}=await import('../lib/site-proxy.js');
+ const http=await import('node:http');
+ const proxy=await createPublicProxy();
+ try{
+  const status=await new Promise((resolve,reject)=>{const req=http.request(proxy.url,{path:'http://127.0.0.1/private',method:'GET'},res=>{res.resume();resolve(res.statusCode);});req.on('error',reject);req.end();});
+  assert.equal(status,403);
+  const connectStatus=await new Promise((resolve,reject)=>{const req=http.request(proxy.url,{method:'CONNECT',path:'169.254.169.254:443'});req.on('connect',(res,socket)=>{socket.destroy();resolve(res.statusCode);});req.on('error',reject);req.end();});
+  assert.equal(connectStatus,403);
+ }finally{proxy.close();}
+});
