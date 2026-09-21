@@ -21,3 +21,9 @@ test('capture proxy refuses internal HTTP and CONNECT destinations before connec
   assert.equal(connectStatus,403);
  }finally{proxy.close();}
 });
+test('site scrolling is bounded and does not imply full-page coverage',async()=>{
+ const {captureOffsets,describeSiteScope}=await import('../lib/site-contract.js');
+ assert.deepEqual(captureOffsets(700,900),[0]);assert.deepEqual(captureOffsets(1200,900),[0,300]);
+ assert.deepEqual(captureOffsets(80000,900),[0,5550,11100]);
+ assert.match(describeSiteScope([1,2,3,4,5,6]),/6개 캡처 구간/);assert.match(describeSiteScope([1,2]),/클릭 및 입력 미실행/);
+});

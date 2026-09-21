@@ -146,3 +146,12 @@ test('site mode accepts desktop/mobile observations without treating them as bef
  const text=reportMarkdown({...actual,mode:'site',purpose:input.purpose,createdAt:'2026-09-21T11:00:00Z',model:'test',siteContext:site.siteContext});
  assert.match(text,/사이트 URL 검수/);assert.match(text,/https:\/\/example.com/);assert.match(text,/모바일/);
 });
+test('site input validates extra scroll images and exports the correct viewport identity',async()=>{
+ const site=await validateReviewInput({...input,mode:'site',after:png,extraScreens:[{key:'mobile-bottom',data:png,scrollY:1600}]});assert.equal(site.extraScreens[0].key,'mobile-bottom');
+ await assert.rejects(validateReviewInput({...input,mode:'site',after:png,extraScreens:[{key:'after',data:png}]}),e=>e.code==='invalid_screens');
+ const value={...report,issues:[{...finding,image:'mobile-bottom'}]};
+ assert.equal(validateReport(value,'site').issues[0].image,'mobile-bottom');
+ assert.throws(()=>validateReport({...value,issues:[{...finding,image:'mobile-bottom',status:'resolved'}]},'compare'));
+ assert.match(reportMarkdown({...value,mode:'site',createdAt:'2026-09-21T11:00:00Z',model:'test',purpose:input.purpose}),/모바일 · 마지막 확인 구간/);
+ const {reportHtml}=await import('../lib/review-contract.js');assert.match(reportHtml({...value,mode:'site',createdAt:'2026-09-21T11:00:00Z',model:'test',purpose:input.purpose}),/모바일 · 마지막 확인 구간/);
+});
