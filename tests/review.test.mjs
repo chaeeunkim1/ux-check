@@ -69,9 +69,9 @@ test('HTML report escapes untrusted content and has no executable scripts',async
 
 test('published saved examples preserve real result metadata and validate',async()=>{
  const {samples}=await import('../lib/samples.js');
- for(const sample of samples){
-  const {report:saved}=JSON.parse(await readFile(new URL(`../public/examples/${sample.id}-review.json`,import.meta.url)));
-  assert.equal(saved.source,'saved-example');assert.equal(saved.purpose,sample.purpose);assert.ok(saved.durationMs>0);assert.ok(saved.usage.inputTokens>0);assert.ok(saved.sourceCheckedAt);validateReport(saved,'review');
+ for(const sample of samples)for(const mode of ['review','compare']){
+  const {report:saved}=JSON.parse(await readFile(new URL(`../public/examples/${sample.id}-${mode}.json`,import.meta.url)));
+  assert.equal(saved.source,'saved-example');assert.equal(saved.purpose,sample.purpose);assert.ok(saved.durationMs>0);assert.ok(saved.usage.inputTokens>0);assert.ok(saved.sourceCheckedAt);validateReport(saved,mode);
  }
 });
 
@@ -117,4 +117,24 @@ test('export rejects cross-origin forms and streamed oversize bodies',async()=>{
  const {POST:exportReport}=await import('../app/api/export/route.js');
  const cross=await exportReport(new Request('http://localhost/api/export',{method:'POST',headers:{Origin:'https://untrusted.example'},body:new URLSearchParams({format:'html'})}));assert.equal(cross.status,403);
  const large=await exportReport(new Request('http://localhost/api/export',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'x'.repeat(600001)}));assert.equal(large.status,413);
+});
+
+
+test('strict tool schema preserves bounds as descriptions and narrows mode enums',async()=>{
+ const {strictToolSchema}=await import('../lib/strict-tool-schema.js');
+ const original={type:'array',minItems:1,maxItems:3,items:{type:'string',maxLength:10}};
+ const strict=strictToolSchema(original);assert.equal(strict.minItems,1);assert.equal(strict.maxItems,undefined);assert.ok(strict.description.includes('maxItems: 3'));assert.ok(strict.items.description.includes('maxLength: 10'));assert.equal(original.maxItems,3);
+ let sent;
+ await analyzeReview(input,{apiKey:'TEST_VALUE',verify:false,fetcher:async(_url,options)=>{sent=JSON.parse(options.body);return Response.json({content:[{type:'tool_use',name:'submit_review',input:report}]});}});
+ assert.equal(sent.tools[0].strict,true);assert.deepEqual(sent.tools[0].input_schema.properties.issues.items.properties.status.enum,['observed']);
+});
+
+
+test('saved comparison is unavailable when either screenshot was replaced',async()=>{
+ const {samples,canLoadSavedExample}=await import('../lib/samples.js');
+ const selected={sampleId:'approval',purpose:samples[0].purpose,mode:'compare',before:{isSample:true},after:{isSample:true}};
+ assert.equal(canLoadSavedExample(selected),true);
+ assert.equal(canLoadSavedExample({...selected,after:{isSample:false}}),false);
+ assert.equal(canLoadSavedExample({...selected,before:{isSample:false}}),false);
+ assert.equal(canLoadSavedExample({...selected,purpose:'다른 업무에 대한 사용자 목적'}),false);
 });
