@@ -49,14 +49,72 @@ test('upstream errors never expose provider messages or keys',async()=>{
 });
 test('timeout and truncated model output have explicit recoverable errors',async()=>{
  await assert.rejects(analyzeReview(input,{apiKey:'TEST_VALUE',fetcher:async()=>{throw new DOMException('timeout','TimeoutError');}}),e=>e.code==='timeout'&&e.status===504);
- await assert.rejects(analyzeReview(input,{apiKey:'TEST_VALUE',fetcher:async()=>Response.json({stop_reason:'max_tokens',content:[{type:'tool_use',name:'submit_review',input:report}]})}),e=>e.code==='invalid_response');
+ await assert.rejects(analyzeReview(input,{apiKey:'TEST_VALUE',fetcher:async()=>Response.json({stop_reason:'max_tokens',content:[{type:'tool_use',name:'submit_review',input:report}]})}),e=>e.code==='response_truncated');
 });
 test('structured response and exported evidence stay consistent',async()=>{
- const result=await analyzeReview(input,{apiKey:'TEST_VALUE',fetcher:async()=>Response.json({model:'test-model',content:[{type:'tool_use',name:'submit_review',input:report}],usage:{input_tokens:123,output_tokens:456}})});
+ const result=await analyzeReview(input,{apiKey:'TEST_VALUE',verify:false,fetcher:async()=>Response.json({model:'test-model',content:[{type:'tool_use',name:'submit_review',input:report}],usage:{input_tokens:123,output_tokens:456}})});
  const final={...result,mode:'review',purpose:input.purpose,createdAt:'2026-09-21T00:00:00Z'};
  const markdown=reportMarkdown(final);assert.ok(markdown.includes(finding.observation));assert.ok(markdown.includes(finding.recommendation));assert.ok(markdown.includes(finding.verification));assert.ok(markdown.includes(input.purpose));assert.equal(result.usage.outputTokens,456);
 });
 test('report includes human disposition without overwriting AI evidence',()=>{
  const final={...validateReport(report,'review'),mode:'review',purpose:input.purpose,createdAt:'2026-09-21T00:00:00Z',model:'test',reviewDecisions:{'finding-1':'exclude'}};
  const output=reportMarkdown(final);assert.ok(output.includes('담당자 판단: 검토에서 제외'));assert.ok(output.includes(finding.observation));
+});
+
+test('HTML report escapes untrusted content and has no executable scripts',async()=>{
+ const {reportHtml}=await import('../lib/review-contract.js');
+ const final={...validateReport(report,'review'),mode:'review',purpose:'<script>alert(1)</script>',createdAt:'2026-09-21',model:'test',source:'saved-example',reviewDecisions:{'finding-1':'include'}};
+ const html=reportHtml(final);assert.ok(html.includes('&lt;script&gt;'));assert.ok(!html.includes('<script>'));assert.ok(html.includes('default-src'));assert.ok(html.includes('현재 실시간 분석 아님'));assert.ok(html.includes('담당자 판단: 개선안 채택'));
+});
+
+test('published saved examples preserve real result metadata and validate',async()=>{
+ const {samples}=await import('../lib/samples.js');
+ for(const sample of samples){
+  const {report:saved}=JSON.parse(await readFile(new URL(`../public/examples/${sample.id}-review.json`,import.meta.url)));
+  assert.equal(saved.source,'saved-example');assert.equal(saved.purpose,sample.purpose);assert.ok(saved.durationMs>0);assert.ok(saved.usage.inputTokens>0);assert.ok(saved.sourceCheckedAt);validateReport(saved,'review');
+ }
+});
+
+test('export endpoint returns validated attachments with the displayed evidence',async()=>{
+ const {POST:exportReport}=await import('../app/api/export/route.js');
+ const final={...validateReport(report,'review'),id:'test-report',mode:'review',purpose:input.purpose,createdAt:'2026-09-21T00:00:00Z',model:'test',reviewDecisions:{'finding-1':'include'}};
+ for(const format of ['markdown','html','json']){
+  const body=new URLSearchParams({format,report:JSON.stringify(final)});
+  const response=await exportReport(new Request('http://localhost/api/export',{method:'POST',body}));
+  assert.equal(response.status,200);assert.ok(response.headers.get('content-disposition').includes('attachment'));const content=await response.text();assert.ok(content.includes(finding.observation));assert.ok(content.includes(finding.recommendation));assert.ok(content.includes(format==='json'?'include':'개선안 채택'));
+ }
+ const invalid=await exportReport(new Request('http://localhost/api/export',{method:'POST',body:new URLSearchParams({format:'html',report:'{"purpose":"<script>"}'})}));assert.equal(invalid.status,400);
+});
+
+test('independent audit removes unsupported claims and preserves uncertainty',async()=>{
+ const {applyAudit}=await import('../lib/review-audit.js');
+ const initial=validateReport({...report,issues:[finding,{...finding,title:'두 번째',severity:'medium'}]},'review');
+ const output=applyAudit(initial,{summary:'수정된 요약',checks:[{number:1,verdict:'unsupported',title:'제외할 주장',severity:'low',reason:'이미지에 근거가 없음'},{number:2,verdict:'uncertain',title:'추가 확인할 항목',severity:'low',reason:'클릭 결과는 확인할 수 없음'}]},'review');
+ assert.equal(output.issues.length,1);assert.equal(output.issues[0].number,1);assert.equal(output.issues[0].confidence,'low');assert.equal(output.qualityCheck.removedCount,1);assert.equal(output.issues[0].auditNote,'클릭 결과는 확인할 수 없음');
+ assert.throws(()=>applyAudit(initial,{summary:'중복 번호',checks:[{number:1},{number:1}]},'review'));
+});
+
+test('default analysis runs audit and accounts for both API calls',async()=>{
+ let calls=0;
+ const result=await analyzeReview(input,{apiKey:'TEST_VALUE',fetcher:async(_url,options)=>{calls++;const name=JSON.parse(options.body).tools[0].name;return Response.json({model:'test-model',content:[{type:'tool_use',name,input:name==='submit_review'?report:{summary:'이미지와 대조한 요약',checks:[{number:1,verdict:'supported',title:finding.title,severity:'medium',reason:'상태 텍스트가 없음을 확인'}]}}],usage:{input_tokens:100,output_tokens:50}});}});
+ assert.equal(calls,2);assert.equal(result.usage.inputTokens,200);assert.equal(result.usage.outputTokens,100);assert.equal(result.qualityCheck.performed,true);assert.equal(result.issues[0].severity,'medium');
+});
+
+
+test('exports retain audit evidence, uncertainty and separate human decisions',async()=>{
+ const {POST:exportReport}=await import('../app/api/export/route.js');
+ const final={...validateReport(report,'review'),id:'audit-report',mode:'review',purpose:input.purpose,createdAt:'2026-09-21T00:00:00Z',model:'test',qualityCheck:{performed:true,initialCount:2,removedCount:1,uncertainCount:1},reviewDecisions:{'finding-1':'hold'}};
+ final.issues[0].auditNote='이미지만으로 확인 불가 <script>no</script>';final.issues[0].auditVerdict='uncertain';
+ for(const format of ['html','markdown','json']){
+  const response=await exportReport(new Request('http://localhost/api/export',{method:'POST',body:new URLSearchParams({format,report:JSON.stringify(final)})}));
+  assert.equal(response.status,200);const output=await response.text();assert.ok(output.includes('이미지만으로 확인 불가'));
+  if(format==='json'){const saved=JSON.parse(output);assert.deepEqual(saved.qualityCheck,final.qualityCheck);assert.equal(saved.issues[0].auditVerdict,'uncertain');assert.equal(saved.reviewDecisions['finding-1'],'hold');}
+  if(format==='html')assert.ok(!output.includes('<script>no</script>'));
+ }
+});
+
+test('export rejects cross-origin forms and streamed oversize bodies',async()=>{
+ const {POST:exportReport}=await import('../app/api/export/route.js');
+ const cross=await exportReport(new Request('http://localhost/api/export',{method:'POST',headers:{Origin:'https://untrusted.example'},body:new URLSearchParams({format:'html'})}));assert.equal(cross.status,403);
+ const large=await exportReport(new Request('http://localhost/api/export',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'x'.repeat(600001)}));assert.equal(large.status,413);
 });

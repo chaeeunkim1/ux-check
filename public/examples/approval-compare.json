@@ -1,0 +1,203 @@
+{
+  "report": {
+    "summary": "after 화면에서 기한 초과 식별, 상태 텍스트화, 버튼 레이블 등 핵심 개선은 이미지에서 모두 확인되며, '검토 대기'와 '접수' 두 상태의 처리 우선순위가 하단 소형 안내 문구에만 의존하는 점이 남은 실질적 업무 위험입니다.",
+    "strengths": [
+      "after에서 조회 결과 제목이 '검토할 요청 5건 · 기한 초과 2건'으로 바뀌어 담당자가 목록 진입 즉시 긴급 건 수를 파악할 수 있습니다.",
+      "기한 초과 행의 날짜 셀에 '09.19 · 기한 초과'처럼 텍스트로 명시하여 색상에만 의존하지 않고 초과 여부를 직접 인지할 수 있습니다.",
+      "작업 버튼이 '확인'에서 '검토하기'로 바뀌어 다음 행동이 무엇인지 더 명확하게 전달합니다."
+    ],
+    "limitations": [
+      "스크린샷 검수로는 실제 클릭 후 화면 전환, 키보드 탐색, 스크린리더 동작을 확인할 수 없습니다.",
+      "색상 대비 수치를 측정할 수 없어 주황색 기한 초과 텍스트 및 베이지 배지의 접근성 기준 충족 여부를 단정할 수 없습니다.",
+      "검색 기능의 실제 필터 범위(요청명·담당자 외 다른 필드 포함 여부)는 화면만으로 확인되지 않습니다."
+    ],
+    "issues": [
+      {
+        "id": "finding-1",
+        "number": 1,
+        "category": "clarity",
+        "severity": "low",
+        "status": "resolved",
+        "confidence": "high",
+        "image": "before",
+        "region": {
+          "x": 21,
+          "y": 12,
+          "width": 25,
+          "height": 4
+        },
+        "title": "부제목: 시스템 명칭 → 행동 안내 문구",
+        "element": "페이지 제목 아래 부제목 텍스트",
+        "observation": "before에서 부제목이 '업무 처리 시스템'으로 시스템 명칭만 표시됨. after에서 '담당 요청을 검토하고 다음 처리 단계를 진행하세요.'로 변경됨.",
+        "impact": "담당자가 이 화면에서 무엇을 해야 하는지 즉시 파악하는 데 도움이 됩니다.",
+        "recommendation": "after의 행동 지향 안내 문구를 유지하세요.",
+        "verification": "페이지 진입 후 부제목이 '담당 요청을 검토하고 다음 처리 단계를 진행하세요.'로 표시되는지 확인합니다.",
+        "comparison": "before: '업무 처리 시스템'(시스템 명칭) → after: '담당 요청을 검토하고 다음 처리 단계를 진행하세요.'(행동 안내). 목적이 명확히 전달되도록 개선됨.",
+        "auditNote": "before에서 '업무 처리 시스템', after에서 '담당 요청을 검토하고 다음 처리 단계를 진행하세요.'로 변경된 것이 이미지에서 명확히 확인되며, 개선 방향은 타당하나 업무 기능에 미치는 영향이 크지 않아 medium보다 low가 적절합니다.",
+        "auditVerdict": "supported"
+      },
+      {
+        "id": "finding-2",
+        "number": 2,
+        "category": "form",
+        "severity": "low",
+        "status": "resolved",
+        "confidence": "high",
+        "image": "before",
+        "region": {
+          "x": 21,
+          "y": 18,
+          "width": 40,
+          "height": 6
+        },
+        "title": "검색창 플레이스홀더 구체화",
+        "element": "검색 입력 필드 플레이스홀더",
+        "observation": "before에서 플레이스홀더가 '검색'으로만 표시됨. after에서 '요청명 또는 담당자 검색'으로 변경됨.",
+        "impact": "검색 가능 범위를 미리 알 수 있어 불필요한 시도를 줄일 수 있습니다.",
+        "recommendation": "after의 '요청명 또는 담당자 검색' 문구를 유지하세요.",
+        "verification": "검색 필드 클릭 전 플레이스홀더가 '요청명 또는 담당자 검색'으로 표시되는지 확인합니다.",
+        "comparison": "before: '검색'(단어만) → after: '요청명 또는 담당자 검색'(검색 범위 명시). 입력 가이드가 구체화됨.",
+        "auditNote": "before '검색', after '요청명 또는 담당자 검색'으로 변경된 것이 이미지에서 확인되며, 검색 범위를 안내하는 개선이지만 업무 흐름에 미치는 기능적 영향은 낮습니다.",
+        "auditVerdict": "supported"
+      },
+      {
+        "id": "finding-3",
+        "number": 3,
+        "category": "hierarchy",
+        "severity": "high",
+        "status": "resolved",
+        "confidence": "high",
+        "image": "before",
+        "region": {
+          "x": 21,
+          "y": 25,
+          "width": 20,
+          "height": 4
+        },
+        "title": "섹션 제목에 건수·기한 초과 수 즉시 표시",
+        "element": "조회 결과 섹션 제목",
+        "observation": "before에서 '조회 결과'로만 표기되어 전체 건수와 긴급 건수를 알 수 없음. after에서 '검토할 요청 5건 · 기한 초과 2건'으로 변경됨.",
+        "impact": "담당자가 목록을 열람하지 않아도 긴급 처리 필요 건수를 즉시 인지할 수 있어 업무 우선순위 설정에 도움이 됩니다.",
+        "recommendation": "after의 형식을 유지하고, 기한 초과 건수가 0일 때는 '기한 초과 0건' 대신 해당 부분을 숨기는 방식도 검토하세요.",
+        "verification": "목록 진입 시 제목에 총 건수와 기한 초과 건수가 정확히 반영되는지 확인합니다.",
+        "comparison": "before: '조회 결과'(건수 없음) → after: '검토할 요청 5건 · 기한 초과 2건'(건수·긴급 건 수 동시 표시). 업무 맥락 파악이 크게 개선됨.",
+        "auditNote": "before '조회 결과', after '검토할 요청 5건 · 기한 초과 2건'으로 변경되어 담당자가 목록 열람 전 긴급 건수를 즉시 파악할 수 있게 된 것이 이미지에서 확인됩니다.",
+        "auditVerdict": "supported"
+      },
+      {
+        "id": "finding-4",
+        "number": 4,
+        "category": "clarity",
+        "severity": "high",
+        "status": "resolved",
+        "confidence": "high",
+        "image": "before",
+        "region": {
+          "x": 75,
+          "y": 30,
+          "width": 12,
+          "height": 50
+        },
+        "title": "상태 열: 색상 점 → 텍스트 배지('검토 대기'/'접수')",
+        "element": "상태 열의 색상 점(before) / 텍스트 배지(after)",
+        "observation": "before에서 상태 열에 주황/초록 색상 점만 표시되어 의미를 별도로 알아야 함. after에서 '검토 대기', '접수' 텍스트 배지로 변경됨.",
+        "impact": "색상만으로 상태를 구분하면 색약 사용자나 빠른 스캔 시 오류가 발생할 수 있으며, 텍스트 배지로 교체하면 이 위험이 줄어듭니다.",
+        "recommendation": "after의 텍스트 배지 형식을 유지하고, 추가 상태가 생길 경우 동일한 패턴으로 확장하세요.",
+        "verification": "각 행의 상태 열에 '검토 대기' 또는 '접수' 텍스트가 배지 형태로 명확히 표시되는지 확인합니다.",
+        "comparison": "before: 주황·초록 색상 점만 표시(의미 불명확) → after: '검토 대기'/'접수' 텍스트 배지(의미 명시). 색상 의존도가 크게 낮아짐.",
+        "auditNote": "before의 주황·초록 색상 점이 after에서 '검토 대기', '접수' 텍스트 배지로 대체된 것이 이미지에서 명확히 확인되며, 색각 의존도 감소와 의미 명시 측면에서 high 심각도가 타당합니다.",
+        "auditVerdict": "supported"
+      },
+      {
+        "id": "finding-5",
+        "number": 5,
+        "category": "action",
+        "severity": "medium",
+        "status": "resolved",
+        "confidence": "high",
+        "image": "before",
+        "region": {
+          "x": 87,
+          "y": 30,
+          "width": 10,
+          "height": 50
+        },
+        "title": "작업 버튼 레이블 '확인' → '검토하기'",
+        "element": "작업/검토 열 버튼 레이블",
+        "observation": "before에서 모든 행의 버튼이 '확인'으로만 표기됨. after에서 '검토하기'로 변경됨.",
+        "impact": "'확인'은 완료 동작으로 오인될 수 있어, '검토하기'로 변경하면 클릭 후 상세 검토 단계로 이동한다는 의도가 더 명확하게 전달됩니다.",
+        "recommendation": "after의 '검토하기' 레이블을 유지하세요. 상태에 따라 '재검토하기' 등 변형도 고려할 수 있습니다.",
+        "verification": "모든 행의 버튼 레이블이 '검토하기'로 표시되는지 확인합니다.",
+        "comparison": "before: '확인'(동작 목적 불명확) → after: '검토하기'(다음 행동 명시). 버튼의 행동 전달력이 개선됨.",
+        "auditNote": "before의 '확인' 버튼이 after에서 '검토하기'로 변경된 것이 이미지에서 확인되며, 완료 행동으로의 오인 위험을 줄이는 의미 있는 개선입니다.",
+        "auditVerdict": "supported"
+      },
+      {
+        "id": "finding-6",
+        "number": 6,
+        "category": "feedback",
+        "severity": "medium",
+        "status": "resolved",
+        "confidence": "high",
+        "image": "before",
+        "region": {
+          "x": 58,
+          "y": 33,
+          "width": 18,
+          "height": 20
+        },
+        "title": "기한 초과 행 날짜 셀에 '기한 초과' 텍스트 병기 및 열 헤더 변경",
+        "element": "처리 기한 열, 1·2행 날짜 텍스트",
+        "observation": "before에서 날짜('09.19', '09.20')만 표시됨. after에서 '09.19 · 기한 초과', '09.20 · 기한 초과'로 주황색 텍스트와 함께 표기됨.",
+        "impact": "색상 외에 텍스트로도 초과 여부가 명시되어 색각 이상 사용자도 기한 초과 건을 식별할 수 있습니다.",
+        "recommendation": "after의 '날짜 · 기한 초과' 형식을 유지하고, 날짜 열 헤더도 before의 '일자'에서 after의 '처리 기한'으로 변경된 점을 함께 유지하세요.",
+        "verification": "기한이 지난 행의 처리 기한 셀에 날짜와 '기한 초과' 문구가 함께 표시되는지 확인합니다.",
+        "comparison": "before: 날짜 숫자만 표시 → after: '날짜 · 기한 초과' 주황색 텍스트 표기. 색상 의존도가 낮아지고 초과 여부가 즉시 인지 가능해짐.",
+        "auditNote": "after 이미지에서 1·2행 날짜 셀에 '09.19 · 기한 초과', '09.20 · 기한 초과'가 주황색으로 표시되고 열 헤더도 '일자'에서 '처리 기한'으로 변경된 것이 확인됩니다.",
+        "auditVerdict": "supported"
+      },
+      {
+        "id": "finding-7",
+        "number": 7,
+        "category": "clarity",
+        "severity": "medium",
+        "status": "remaining",
+        "confidence": "medium",
+        "image": "after",
+        "region": {
+          "x": 14,
+          "y": 88,
+          "width": 70,
+          "height": 5
+        },
+        "title": "'검토 대기'·'접수' 처리 우선순위가 하단 소형 문구에만 설명됨",
+        "element": "after 화면 하단 안내 문구 '기한이 지난 요청부터 검토하세요. 상태와 기한은 서로 다른 기준입니다.'",
+        "observation": "after에서 '검토 대기'와 '접수' 두 가지 상태가 배지로 표시되지만, 둘의 처리 흐름 차이는 하단 작은 안내 문구에서만 간략히 언급됨.",
+        "impact": "담당자가 하단 문구를 놓치면 '접수' 상태 건도 즉시 검토해야 하는지, 아니면 순서가 다른지 헷갈릴 수 있습니다.",
+        "recommendation": "상태 배지에 툴팁을 추가하거나, 상단 요약 문구에 상태별 의미를 한 줄 요약으로 추가하는 방안을 검토하세요. 예: '검토 대기: 기한 초과, 접수: 정상 접수'.",
+        "verification": "신규 담당자가 두 상태의 처리 순서를 안내 없이 파악할 수 있는지 사용성 테스트로 확인합니다.",
+        "comparison": "before에는 상태 의미 설명 자체가 없었음. after에서 텍스트 배지가 추가되었으나 상태 간 처리 우선순위 차이는 하단 소형 안내 문구로만 전달됨.",
+        "auditNote": "after 화면 하단에 '기한이 지난 요청부터 검토하세요. 상태와 기한은 서로 다른 기준입니다.'라는 소형 안내 문구만 존재하며, 두 상태의 처리 순서 차이를 목록 상단이나 배지에서 직접 안내하는 요소는 이미지에서 보이지 않습니다.",
+        "auditVerdict": "supported"
+      }
+    ],
+    "qualityCheck": {
+      "performed": true,
+      "initialCount": 7,
+      "removedCount": 0,
+      "uncertainCount": 0
+    },
+    "usage": {
+      "inputTokens": 13076,
+      "outputTokens": 5404
+    },
+    "model": "claude-sonnet-4-6",
+    "id": "54a5b22c-b1b5-43af-9626-caf3082cbb5b",
+    "mode": "compare",
+    "purpose": "현장 업무 담당자가 승인 요청 목록에서 지연되거나 긴급한 요청을 찾아 내용을 검토하고 승인 여부를 결정한다.",
+    "createdAt": "2026-09-21T10:14:37.426Z",
+    "durationMs": 81440,
+    "source": "saved-example",
+    "sourceCheckedAt": "2026-09-21T10:14:37.434Z"
+  }
+}

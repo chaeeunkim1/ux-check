@@ -4,7 +4,7 @@ import { reserveReview } from '../../../lib/review-limits.js';
 import { analyzeReview } from '../../../lib/review-engine.js';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
-export const maxDuration=120;
+export const maxDuration=240;
 const reply=(body,status=200,headers={})=>Response.json(body,{status,headers:{'Cache-Control':'no-store',...headers}});
 export async function POST(request) {
   let reservation;

@@ -1,0 +1,156 @@
+{
+  "report": {
+    "summary": "현황 바 차트의 C1~C4 레이블과 알림 영역의 A·4·D·2 약어는 화면 내 설명이 없어 담당자가 즉각적인 우선순위 판단을 내리기 어려우며, 처리율 단위 누락과 '자세히' 링크의 시각적 단서 부재도 개선이 필요합니다.",
+    "strengths": [
+      "상단 요약 카드 3개로 핵심 지표(이번 주 요청·미처리 요청·기한 내 처리율)를 빠르게 스캔할 수 있다.",
+      "현황 바 차트가 항목별 비교를 시각적으로 지원해 상대적 업무량 파악이 용이하다.",
+      "알림 섹션이 별도 영역으로 분리되어 주의 항목을 구분할 수 있다."
+    ],
+    "limitations": [
+      "스크린샷 검수이므로 실제 클릭 동작, 툴팁, 드릴다운 결과는 확인 불가합니다.",
+      "색상 대비 수치를 직접 측정할 수 없어 접근성 기준 적합 여부는 판단하지 않습니다.",
+      "데이터가 가상(합성)임을 화면 하단에서 명시하고 있어 수치의 업무 적합성은 평가 범위 밖입니다.",
+      "스크롤 아래 숨겨진 콘텐츠 존재 여부를 확인할 수 없습니다."
+    ],
+    "issues": [
+      {
+        "id": "finding-1",
+        "number": 1,
+        "category": "clarity",
+        "severity": "high",
+        "status": "observed",
+        "confidence": "high",
+        "image": "before",
+        "region": {
+          "x": 21,
+          "y": 52,
+          "width": 54,
+          "height": 28
+        },
+        "title": "현황 차트 C1~C4 레이블 의미 불명확",
+        "element": "현황 섹션 내 C1, C2, C3, C4 레이블과 각 색상 바",
+        "observation": "바 차트의 항목이 C1, C2, C3, C4로만 표시되어 있고, 이 코드가 현장명인지 카테고리인지 설명하는 범례나 툴팁 텍스트가 화면에 보이지 않는다.",
+        "impact": "담당자가 어느 현장 또는 업무 유형이 지연 위험에 처했는지 식별하기 어려워 우선순위 판단이 지연될 수 있다.",
+        "recommendation": "C1~C4 레이블을 실제 현장명이나 업무 분류명으로 교체하거나, 차트 항목에 마우스를 올렸을 때 전체 명칭이 표시되는 툴팁을 추가한다. 범례가 있다면 차트 하단에 '범례: C1 = 강남 현장, …' 형태로 노출한다.",
+        "verification": "C1~C4 각 항목의 의미를 화면 내에서 직접 확인할 수 있는지 점검한다. 실제 현장명이 표시되거나 툴팁이 동작하면 통과.",
+        "comparison": "",
+        "auditNote": "이미지에서 C1~C2~C3~C4 레이블과 색상 바만 보이며, 항목의 의미를 설명하는 범례나 추가 텍스트가 화면 내 전혀 없어 관찰이 정확합니다.",
+        "auditVerdict": "supported"
+      },
+      {
+        "id": "finding-2",
+        "number": 2,
+        "category": "clarity",
+        "severity": "medium",
+        "status": "observed",
+        "confidence": "high",
+        "image": "before",
+        "region": {
+          "x": 21,
+          "y": 52,
+          "width": 54,
+          "height": 28
+        },
+        "title": "현황 차트 바에 수치 미표시",
+        "element": "현황 섹션 내 C1~C4 색상 바",
+        "observation": "각 바의 크기가 상대적 차이를 보여주지만, 바 위 또는 끝에 실제 수치나 단위가 표시되어 있지 않다.",
+        "impact": "담당자가 각 현장의 절대적 업무량이나 처리 건수를 파악하지 못해 지연 위험 현장을 정확히 선별하기 어렵다.",
+        "recommendation": "각 바 오른쪽 끝 또는 내부에 수치(예: '45건')를 텍스트로 표시한다. X축 눈금을 추가하는 것도 대안이다.",
+        "verification": "차트의 각 항목에서 숫자 값을 화면 내에서 직접 읽을 수 있으면 통과.",
+        "comparison": "",
+        "auditNote": "각 바에 숫자나 축 눈금이 없는 것이 이미지에서 확인되나, 상대적 비교는 가능하므로 기능적 영향은 medium이 적절합니다.",
+        "auditVerdict": "supported"
+      },
+      {
+        "id": "finding-3",
+        "number": 3,
+        "category": "clarity",
+        "severity": "high",
+        "status": "observed",
+        "confidence": "high",
+        "image": "before",
+        "region": {
+          "x": 70,
+          "y": 52,
+          "width": 28,
+          "height": 22
+        },
+        "title": "알림 항목 'A·4', 'D·2' 의미 불명확",
+        "element": "알림 섹션의 'A · 4', 'D · 2' 텍스트",
+        "observation": "알림 영역에 'A · 4'와 'D · 2'만 표시되어 있으며, A와 D가 무엇을 의미하는지, 숫자가 건수인지 다른 값인지 화면에서 확인할 수 없다.",
+        "impact": "담당자가 어떤 유형의 알림이 몇 건인지 파악하지 못해 오늘 우선 확인할 업무 결정에 혼선이 생길 수 있다.",
+        "recommendation": "알림 유형을 풀어서 표시한다(예: '승인 대기 4건', '기한 초과 2건'). 약어를 유지해야 한다면 마우스오버 툴팁 또는 하단 범례로 의미를 제공한다.",
+        "verification": "알림 항목 각각의 유형과 건수를 화면 내에서 직접 이해할 수 있으면 통과.",
+        "comparison": "",
+        "auditNote": "이미지에서 'A · 4'와 'D · 2' 텍스트만 보이고 A·D가 무엇을 의미하는지 설명하는 텍스트나 범례가 화면에 없어 관찰이 정확합니다.",
+        "auditVerdict": "supported"
+      },
+      {
+        "id": "finding-4",
+        "number": 4,
+        "category": "clarity",
+        "severity": "medium",
+        "status": "observed",
+        "confidence": "high",
+        "image": "before",
+        "region": {
+          "x": 72,
+          "y": 17,
+          "width": 26,
+          "height": 14
+        },
+        "title": "'기한 내 처리율' 단위(%) 미표시",
+        "element": "상단 요약 카드 세 번째: '기한 내 처리율 91.6'",
+        "observation": "처리율 카드에 숫자 '91.6'만 표시되어 있고, '%' 단위가 없다.",
+        "impact": "처음 화면을 보는 담당자가 91.6이 퍼센트인지 다른 단위인지 즉시 판단하지 못해 오독 가능성이 있다.",
+        "recommendation": "숫자 옆에 '%'를 붙여 '91.6%'로 표시하거나, 카드 하단에 단위를 작은 글씨로 명시한다.",
+        "verification": "카드 내에서 수치와 단위(%)를 함께 확인할 수 있으면 통과.",
+        "comparison": "",
+        "auditNote": "이미지의 처리율 카드에 '91.6'만 표시되어 있고 '%' 기호가 없는 것이 확인됩니다.",
+        "auditVerdict": "supported"
+      },
+      {
+        "id": "finding-5",
+        "number": 5,
+        "category": "action",
+        "severity": "low",
+        "status": "observed",
+        "confidence": "low",
+        "image": "before",
+        "region": {
+          "x": 70,
+          "y": 68,
+          "width": 15,
+          "height": 5
+        },
+        "title": "'자세히' 링크 시각적 단서 부족",
+        "element": "알림 섹션 하단 '자세히' 텍스트",
+        "observation": "알림 영역 하단에 '자세히'라는 텍스트가 있으나, 버튼인지 링크인지 시각적 구분(밑줄, 화살표, 버튼 스타일)이 관찰되지 않으며 어느 화면으로 이동하는지 설명이 없다.",
+        "impact": "담당자가 '자세히'를 클릭 가능한 요소로 인지하지 못하거나, 클릭 후 어디로 이동하는지 몰라 알림 상세 확인 단계를 건너뛸 수 있다.",
+        "recommendation": "'자세히'를 '알림 전체 보기 →'처럼 목적을 명시한 문구로 변경하고, 링크 스타일(밑줄 또는 버튼 형태)을 적용해 클릭 가능한 요소임을 명확히 한다.",
+        "verification": "'자세히' 요소가 클릭 가능하다는 시각적 단서를 갖추고, 클릭 시 이동할 화면이 문구에서 유추되는지 확인한다.",
+        "comparison": "",
+        "auditNote": "이미지에서 '자세히' 텍스트가 존재하고 클릭 가능 여부(밑줄·버튼 등)가 육안으로 명확히 구분되지 않으나, 스타일 세부 속성은 정지 화면만으로 단정하기 어렵습니다.",
+        "auditVerdict": "uncertain"
+      }
+    ],
+    "qualityCheck": {
+      "performed": true,
+      "initialCount": 5,
+      "removedCount": 0,
+      "uncertainCount": 1
+    },
+    "usage": {
+      "inputTokens": 9239,
+      "outputTokens": 3308
+    },
+    "model": "claude-sonnet-4-6",
+    "id": "e04ce182-08a3-494d-9213-f277517101fb",
+    "mode": "review",
+    "purpose": "IT운영 담당자가 여러 현장의 업무 현황을 살펴보고 지연 위험이 있는 현장과 오늘 우선 확인할 업무를 결정한다.",
+    "createdAt": "2026-09-21T10:18:54.586Z",
+    "durationMs": 59257,
+    "source": "saved-example",
+    "sourceCheckedAt": "2026-09-21T10:18:54.593Z"
+  }
+}
