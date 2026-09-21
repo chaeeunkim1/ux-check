@@ -155,3 +155,10 @@ test('site input validates extra scroll images and exports the correct viewport 
  assert.match(reportMarkdown({...value,mode:'site',createdAt:'2026-09-21T11:00:00Z',model:'test',purpose:input.purpose}),/모바일 · 마지막 확인 구간/);
  const {reportHtml}=await import('../lib/review-contract.js');assert.match(reportHtml({...value,mode:'site',createdAt:'2026-09-21T11:00:00Z',model:'test',purpose:input.purpose}),/모바일 · 마지막 확인 구간/);
 });
+
+test('site facts keep valid JSON and preserve every screen under the size budget',async()=>{
+ const {siteAnalysisFacts}=await import('../lib/site-contract.js');
+ const keys=['before','after','desktop-middle','desktop-bottom','mobile-middle','mobile-bottom'];
+ const value=siteAnalysisFacts({finalUrl:'https://example.com/',scope:{pages:1},screens:keys.map(key=>({key,viewport:{width:390,height:844},observations:Array.from({length:60},(_,i)=>({text:'긴 관찰 텍스트 '.repeat(20),x:0,y:i*20,width:300,height:20,fontSize:'16px'}))}))});
+ assert.ok(value.length<=18000);const parsed=JSON.parse(value);assert.deepEqual(parsed.screens.map(s=>s.key),keys);assert.ok(parsed.screens.every(s=>s.observations.length>0));assert.ok(parsed.screens.every(s=>s.observations[0].height===20));
+});
