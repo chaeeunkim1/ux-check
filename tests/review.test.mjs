@@ -56,3 +56,7 @@ test('structured response and exported evidence stay consistent',async()=>{
  const final={...result,mode:'review',purpose:input.purpose,createdAt:'2026-09-21T00:00:00Z'};
  const markdown=reportMarkdown(final);assert.ok(markdown.includes(finding.observation));assert.ok(markdown.includes(finding.recommendation));assert.ok(markdown.includes(finding.verification));assert.ok(markdown.includes(input.purpose));assert.equal(result.usage.outputTokens,456);
 });
+test('report includes human disposition without overwriting AI evidence',()=>{
+ const final={...validateReport(report,'review'),mode:'review',purpose:input.purpose,createdAt:'2026-09-21T00:00:00Z',model:'test',reviewDecisions:{'finding-1':'exclude'}};
+ const output=reportMarkdown(final);assert.ok(output.includes('담당자 판단: 검토에서 제외'));assert.ok(output.includes(finding.observation));
+});
