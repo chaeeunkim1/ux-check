@@ -1,0 +1,15 @@
+import { readFile, mkdir, writeFile } from 'node:fs/promises';
+import { POST } from '../app/api/review/route.js';
+import { samples } from '../lib/samples.js';
+const id=process.argv[2]||'approval';
+const mode=process.argv[3]||'review';
+const base=process.argv[4];
+const sample=samples.find(s=>s.id===id);if(!sample)throw new Error('Unknown sample');
+const image=async path=>'data:image/png;base64,'+(await readFile(new URL('../public'+path,import.meta.url))).toString('base64');
+const payload={mode,purpose:sample.purpose,consent:true,before:await image(sample.image),...(mode==='compare'?{after:await image(sample.after)}:{})};
+const request=new Request((base||'http://localhost:3000')+'/api/review',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+const start=Date.now();const response=base?await fetch(request):await POST(request);const data=await response.json();
+const dir=new URL('../artifacts/private/reviews/',import.meta.url);await mkdir(dir,{recursive:true});
+await writeFile(new URL(`${id}-${mode}-${Date.now()}.json`,dir),JSON.stringify({checkedAt:new Date().toISOString(),source:base||'local-route',status:response.status,...data},null,2));
+console.log(JSON.stringify({sample:id,mode,status:response.status,durationMs:Date.now()-start,error:data.error,message:data.message,summary:data.report?.summary,issues:data.report?.issues.map(i=>({title:i.title,severity:i.severity,status:i.status,observation:i.observation})),usage:data.report?.usage},null,2));
+if(!response.ok||!data.report)process.exitCode=1;

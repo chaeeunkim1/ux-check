@@ -1,6 +1,6 @@
 # 배포 운영 안내
 
-이 저장소는 본 제품 개발 전 배포와 API 연결을 준비하는 단계입니다. 공개 화면에 실제 검수 기능이 완성됐다고 표시하지 않습니다.
+공개 운영 주소: https://ux-check-zeta.vercel.app. GitHub push 후 Vercel 자동 배포를 확인했습니다. 검수 기능은 현재 개발·검증 중이며 구체적인 범위는 execution-log.md를 확인합니다.
 
 ## 배포 구성
 
@@ -19,7 +19,7 @@ npm run dev
 npm run build
 ```
 
-## Claude API 키 변경
+## Claude API 설정 관리
 
 1. 로컬 .env.local의 ANTHROPIC_API_KEY를 수정합니다. 키 값을 채팅, 커밋, 명령 인수에 넣지 않습니다.
 2. 필요한 경우 ANTHROPIC_MODEL도 변경합니다.

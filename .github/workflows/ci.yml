@@ -15,4 +15,6 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - run: npm test
+      - run: python scripts/test-log-export.py
       - run: npm run build

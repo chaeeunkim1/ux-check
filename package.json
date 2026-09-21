@@ -8,7 +8,8 @@
     "start": "next start",
     "preflight": "node --env-file=.env.local scripts/preflight.mjs",
     "check:api": "node --env-file=.env.local scripts/check-api-local.mjs",
-    "sync:env": "node --env-file=.env.local scripts/sync-vercel-env.mjs"
+    "sync:env": "node --env-file=.env.local scripts/sync-vercel-env.mjs",
+    "test": "node --test tests/*.test.mjs"
   },
   "engines": {
     "node": "22.x"
@@ -16,7 +17,8 @@
   "dependencies": {
     "next": "16.3.5",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "sharp": "0.35.4"
   },
   "type": "module"
 }
