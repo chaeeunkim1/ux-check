@@ -99,7 +99,7 @@ export default function Home() {
      <div className="privacy-note"><Icon name="shield" size={16}/><p>분석 시 이미지와 업무 목적을 Claude API로 전송합니다. 회사 기밀·개인정보를 제거해 주세요. 이 앱은 이미지를 저장하지 않습니다.</p></div>
      {needsConsent&&<label className="consent"><input type="checkbox" checked={consent} disabled={busy} onChange={e=>setConsent(e.target.checked)}/><span>{mode==='site'?'공개 사이트의 화면·문서 내용 확인 및 Claude API 전송에 동의합니다.':'공유 가능한 화면이며 외부 AI 전송에 동의합니다.'}</span></label>}
      {error&&<div id="review-error" className="error-box" role="alert"><Icon name="info" size={18}/><span>{error}</span></div>}
-     <button type="submit" className="primary-button analyze-button" disabled={busy||(mode!=='site'&&!before)}><Icon name="spark" size={18}/>{busy?(phase==='capture'?'사이트를 열고 있어요':'화면을 분석하고 있어요'):mode==='site'?'사이트 UI·UX 검사':mode==='compare'?'개선 전후 비교하기':'AI 검수 시작'}{!busy&&<Icon name="arrow" size={17}/>}</button>
+     <button type="submit" className="primary-button analyze-button" disabled={mode!=='site'&&!before} aria-disabled={busy}><Icon name="spark" size={18}/>{busy?(phase==='capture'?'사이트를 열고 있어요':'화면을 분석하고 있어요'):mode==='site'?'사이트 UI·UX 검사':mode==='compare'?'개선 전후 비교하기':'AI 검수 시작'}{!busy&&<Icon name="arrow" size={17}/>}</button>
      {busy?<button type="button" className="cancel-button" onClick={()=>controllerRef.current?.abort()}>대기 취소</button>:<p className="submit-note">{mode==='site'?'사이트 화면을 읽기만 하며 수정하지 않습니다.':before?.isSample?'예제는 모두 가상 데이터입니다.':'업로드 이미지는 긴 변 1,600px로 조정됩니다.'}</p>}
      {savedExampleAvailable&&!busy&&<button type="button" className="saved-example-button" onClick={loadExample}><Icon name="list" size={15}/>저장된 검수 예시 보기 <span>AI 호출 없음</span></button>}
     </form></aside>
