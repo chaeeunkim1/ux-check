@@ -45,12 +45,12 @@ test('mobile document reload keeps a fresh resource allowance and a total ceilin
 test('desktop and mobile transfer budgets do not starve each other and remain bounded',async()=>{
  const {createCaptureByteBudget}=await import('../lib/capture-budget.js');
  const budget=createCaptureByteBudget();
- assert.equal(budget.take(40_000_000),true);
+ assert.equal(budget.take(80_000_000),true);
  budget.startViewport();
- assert.equal(budget.take(40_000_000),true);
+ assert.equal(budget.take(80_000_000),true);
  budget.startViewport();
- assert.equal(budget.take(10_000_001),false);
+ assert.equal(budget.take(20_000_001),false);
  assert.equal(budget.stats().byteLimitExceeded,true);
  budget.startViewport();assert.equal(budget.take(1),false);
- const single=createCaptureByteBudget();assert.equal(single.take(45_000_001),false);
+ const single=createCaptureByteBudget();assert.equal(single.take(90_000_001),false);
 });
