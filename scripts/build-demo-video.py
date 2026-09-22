@@ -32,6 +32,6 @@ output=a.output.resolve();output.parent.mkdir(parents=True,exist_ok=True)
 subprocess.run([ffmpeg,'-y','-hide_banner','-loglevel','error','-f','concat','-safe','0','-i','concat.txt','-c','copy','-movflags','+faststart',str(output)],cwd=build,check=True)
 reader=imageio_ffmpeg.read_frames(str(output));metadata=next(reader);reader.close()
 if not 55<=metadata['duration']<=60.1:raise SystemExit('Duration verification failed')
-manifest={'source':'Actual browser screenshots of synthetic-data demo; edited sequence, analysis waiting omitted','audio':'none; Korean captions','durationSeconds':metadata['duration'],'size':metadata['size'],'bytes':output.stat().st_size,'scenes':scenes}
+manifest={'source':'Actual browser screenshots of UX Check inspecting a public page; edited sequence, analysis waiting omitted','audio':'none; Korean captions','durationSeconds':metadata['duration'],'size':metadata['size'],'bytes':output.stat().st_size,'scenes':scenes}
 (output.with_suffix('.manifest.json')).write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 print(json.dumps({'output':str(output),'durationSeconds':metadata['duration'],'size':metadata['size'],'bytes':output.stat().st_size}))
