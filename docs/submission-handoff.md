@@ -10,7 +10,7 @@
 | 공개 데모 | https://ux-check-zeta.vercel.app/ |
 | 공개 60초 영상 | https://ux-check-zeta.vercel.app/demo |
 | 공개 GitHub | https://github.com/chaeeunkim1/ux-check |
-| 발표자료 | https://ux-check-zeta.vercel.app/ux-check-presentation.pptx |
+| 발표자료 | https://ux-check-zeta.vercel.app/ux-check-presentation-final.pptx |
 | 결과물 설명 | 아래 문안 |
 
 ## 결과물 설명 문안
@@ -19,7 +19,7 @@ UX Check는 공개 사이트 URL과 사용 목적을 입력하면 실제 페이�
 
 ## 검증한 것과 남은 것
 
-- 자동 테스트 30개, 프로덕션 빌드 및 GitHub CI가 통과했다.
+- 자동 테스트 31개, 프로덕션 빌드 및 GitHub CI가 통과했다.
 - GS 소개·채용 페이지에서 공개 URL 수집 및 실제 Claude 분석을 확인했다. GS건설 홈페이지에서도 수집·실제 AI 분석이 143.514초에 성공했다. 이후 한국어 브라우저 설정과 AI 좌표 오류 복구를 보완하고 공개 UI에서 국문 4개 화면 수집·실제 분석 70.7초·결과 3개 표시를 확인했다. 과잉 지적은 담당자 판단으로 제외했으며 AI 정확도를 보증하지 않는다.
 - 승인 목록·입력 폼·업무 대시보드 합성 예제와 전후 비교의 실제 API 결과를 보존했다.
 - 공개 영상의 시작·30초·끝, 총 60초 및 재생 오류 없음을 확인했다.
@@ -50,6 +50,10 @@ Windows 대기 모드 및 이후 미확정 중단으로 밤새 연속 실행하�
 - 효과는 얼마나 검증했는가? 실제 사이트 및 합성 업무 예제의 기능 실행을 검증했다. 검수 시간 절감률이나 정확도 수치는 아직 측정하지 않았다.
 
 ## 최종 로그 사본
-artifacts/submission/final-20260922-reviewed/main.jsonl 및 additional-sessions.zip을 제출한다. redaction-manifest.json은 원본 보존·행 수·해시·비밀값 치환 설명이다. 최종 실행 기록 이후 새 작업을 하면 최신 사본을 다시 만들어야 한다.
+artifacts/submission/final-20260922-wrapup/main.jsonl 및 additional-sessions.zip을 제출한다. redaction-manifest.json은 원본 보존·행 수·해시·비밀값 치환 설명이다. 최종 실행 기록 이후 새 작업을 하면 최신 사본을 다시 만들어야 한다.
 
 완료 기준별 증거와 미달한 무중단 실행 조건은 completion-audit.md에 구분했다.
+
+## 약 30분 마무리 검증
+
+최신 운영 f02cf6a에서 GS건설 홈페이지 국문 4개 화면을 수집하고 실제 AI 분석 67.5초·관찰 2개 표시를 확인했다. 요약은 검증 후 남은 투자정보 설명 문구와 추가 확인 1개만 반영했다. 정상 주가 위젯의 수집 제약 항목은 사람이 제외하고 투자정보 문구 제안은 채택했으며 두 판단이 HTML 보고서에 보존됐다. 검사 시작 후 키보드 초점을 유지해 Tab→대기 취소→Enter 취소도 실제 공개 UI에서 통과했다.
