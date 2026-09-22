@@ -162,3 +162,12 @@ test('site facts keep valid JSON and preserve every screen under the size budget
  const value=siteAnalysisFacts({finalUrl:'https://example.com/',scope:{pages:1},screens:keys.map(key=>({key,viewport:{width:390,height:844},observations:Array.from({length:60},(_,i)=>({text:'긴 관찰 텍스트 '.repeat(20),x:0,y:i*20,width:300,height:20,fontSize:'16px'}))}))});
  assert.ok(value.length<=18000);const parsed=JSON.parse(value);assert.deepEqual(parsed.screens.map(s=>s.key),keys);assert.ok(parsed.screens.every(s=>s.observations.length>0));assert.ok(parsed.screens.every(s=>s.observations[0].height===20));
 });
+
+test('one invalid AI region is omitted with disclosure instead of losing all findings',async()=>{
+ const {discardInvalidRegions}=await import('../lib/review-engine.js');
+ const good={title:'valid',region:{x:10,y:10,width:20,height:20}};
+ const bad={title:'invalid',region:{x:95,y:10,width:30,height:20}};
+ const result=discardInvalidRegions({issues:[good,bad],limitations:['original']});
+ assert.deepEqual(result.issues,[good]);assert.match(result.limitations.at(-1),/1개를 제외/);
+ assert.deepEqual(bad.region,{x:95,y:10,width:30,height:20});
+});
