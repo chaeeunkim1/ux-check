@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>UX Check · 사용자 관점의 AI UI·UX 검수</title>
+<meta name="description" content="GS건설 IT운영팀 UX Check 해커톤 발표자료. 5장, 약 5분 발표.">
+<style>
+/* The distributable embeds a subset of Noto Sans KR, licensed under OFL 1.1. */
+@font-face{font-family:Deck;src:url(data:font/woff2;base64,__FONT_DATA__) format('woff2');font-weight:100 900;font-display:swap}
+:root{--ink:#143f34;--muted:#546a61;--paper:#f5f5ed;--lime:#d5f283;--line:#cfdbd0;--scale:1}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%}body{font-family:Deck,'Malgun Gothic',sans-serif;background:#15251f;color:var(--ink);overflow:hidden}button,a{-webkit-tap-highlight-color:transparent}button{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid #b6ee70;outline-offset:5px}button{cursor:pointer}button:disabled{opacity:.35;cursor:default}
+.screen{height:calc(100dvh - 80px);display:grid;place-items:center;padding:12px}.frame{width:calc(1600px * var(--scale));height:calc(900px * var(--scale));position:relative}.deck{position:absolute;width:1600px;height:900px;transform:scale(var(--scale));transform-origin:top left}.slide{width:1600px;height:900px;position:relative;padding:66px 96px 70px;background:var(--paper);overflow:hidden}.slide[hidden]{display:none}.eyebrow{font-size:22px;letter-spacing:.13em;font-weight:650;margin:0 0 36px;text-transform:uppercase}.slide h2{font-size:62px;letter-spacing:-.045em;line-height:1.22;margin:0;font-weight:750;word-break:keep-all}.slide h3{margin:0;font-size:31px;line-height:1.45;letter-spacing:-.035em}.slide p{word-break:keep-all}.small{font-size:22px;line-height:1.6;color:var(--muted)}.folio{position:absolute;left:96px;right:96px;bottom:32px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:17px;font-size:17px;letter-spacing:.04em;color:var(--muted)}.page-title{max-width:1150px}.accent{color:#698c18}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.cover{background:#123f33;color:#f5f8ed}.cover .eyebrow{color:var(--lime)}.cover .brand{font-size:112px;letter-spacing:-.065em;line-height:1;margin:75px 0 32px;font-weight:780}.cover h1{font-size:57px;letter-spacing:-.045em;line-height:1.35;margin:0;max-width:930px;font-weight:650;word-break:keep-all}.cover .intro{font-size:28px;line-height:1.65;max-width:820px;margin:35px 0 0;color:#c5d8c9}.cover .audience{font-size:23px;margin-top:56px;color:var(--lime)}.cover aside{position:absolute;right:96px;top:273px;width:380px;border-top:2px solid #799982;padding-top:25px}.cover aside h2{font-size:25px;color:#c5d8c9;letter-spacing:0;font-weight:500}.problem-line{font-size:31px;line-height:1.5;border-bottom:1px solid #416652;padding:25px 0;margin:0}.problem-line strong{display:block;font-size:18px;color:#b8cdba;font-weight:450;margin-bottom:8px}.cover .folio{color:#b8cdba;border-color:#416652}
+.lead{font-size:27px;line-height:1.65;color:var(--muted);margin:23px 0 0}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:42px;margin-top:55px}.step{border-top:2px solid var(--ink);padding-top:22px}.step-number{font-size:65px;line-height:1.2;color:#839b78;font-weight:350;letter-spacing:-.05em}.step h3{margin:22px 0 17px;font-size:34px}.step p{font-size:25px;line-height:1.65;color:var(--muted);margin:0}.purpose{margin-top:47px;border-left:5px solid #729348;padding:4px 0 4px 25px;font-size:25px;line-height:1.65}.purpose span{display:block;font-size:18px;letter-spacing:.06em;color:var(--muted);margin-bottom:5px}
+.evidence-head{display:flex;justify-content:space-between;align-items:flex-start;gap:32px}.evidence-head h2{font-size:56px}.metrics{display:flex;gap:55px;padding-top:3px}.metric strong{display:block;font-size:66px;font-weight:600;letter-spacing:-.06em;line-height:1.15}.metric strong small{font-size:28px;margin-left:7px;font-weight:500}.metric span{font-size:20px;color:var(--muted);display:block;margin-top:8px}.evidence{display:grid;grid-template-columns:1.3fr 1fr;gap:65px;margin-top:49px}.finding{padding:27px 0 0;border-top:2px solid var(--ink)}.finding .decision{font-size:20px;font-weight:650;color:#497235;letter-spacing:.02em;margin:0 0 14px}.finding h3{font-size:34px;margin-bottom:24px}.finding blockquote{font-size:28px;line-height:1.65;margin:0 0 23px;padding:0 0 0 23px;border-left:4px solid #a9bd7b;word-break:keep-all}.finding .explanation{font-size:24px;line-height:1.65;color:var(--muted);margin:0 0 17px}.finding .proposal{font-size:25px;line-height:1.6;border-top:1px solid var(--line);padding-top:18px;margin:0}.finding .proposal b{font-weight:650;display:block;font-size:18px;color:var(--muted);margin-bottom:5px}.finding.secondary{border-color:#91a291}.finding.secondary .decision{color:#707665}.evidence-scope{font-size:18px;color:var(--muted);margin-top:30px;line-height:1.5}
+.delegation{display:grid;grid-template-columns:.9fr 1.15fr;gap:70px;margin-top:35px}.goal-brief{background:transparent}.goal-brief h3,.repairs h3{font-size:25px;margin-bottom:18px}.goal-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 32px;border-top:2px solid var(--ink);padding-top:23px}.goal-grid dt{font-size:25px;font-weight:650;margin:0 0 7px}.goal-grid dd{font-size:20px;color:var(--muted);line-height:1.65;margin:0;word-break:keep-all}.repair{display:grid;grid-template-columns:175px 1fr;gap:20px;padding:20px 0;border-top:1px solid var(--line);font-size:23px;line-height:1.55}.repair b{font-size:24px;font-weight:650;word-break:keep-all}.repair span{color:var(--muted);word-break:keep-all}.proof{display:flex;align-items:baseline;gap:15px;margin-top:28px}.proof strong{font-size:55px;font-weight:650;letter-spacing:-.05em}.proof span{font-size:21px;color:var(--muted)}
+.scope-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:85px;margin-top:43px}.scope-grid h3{font-size:25px;margin-bottom:20px}.capabilities{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}.capabilities li{display:flex;gap:22px;font-size:29px;border-bottom:1px solid var(--line);padding:21px 0;line-height:1.5}.capabilities span{font-size:20px;color:#6c8b52;padding-top:6px;font-weight:650}.limits{border-top:2px solid #97a88f;padding-top:24px}.limits p{font-size:24px;line-height:1.65;margin:0 0 22px;color:var(--muted)}.next-study{font-size:24px;line-height:1.7;margin-top:25px}.next-study strong{color:var(--ink);font-weight:650}.closing-link{display:flex;align-items:center;gap:28px;margin-top:40px}.closing-link a{font-size:33px;letter-spacing:-.025em;text-decoration-thickness:1px;text-underline-offset:9px;color:var(--ink);font-weight:650}.closing-link span{font-size:20px;color:var(--muted)}
+.toolbar{height:80px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:0 26px;color:#e4eddf;background:#15251f}.toolbar button,.toolbar a{color:inherit;background:transparent;border:1px solid #51604f;border-radius:5px;padding:9px 13px;font-size:14px;text-decoration:none;white-space:nowrap}.toolbar button:hover,.toolbar a:hover{background:#2e4434}.nav,.actions{display:flex;align-items:center;gap:10px}.counter{font-variant-numeric:tabular-nums;min-width:70px;text-align:center;font-size:15px}.timer{font-variant-numeric:tabular-nums;min-width:69px}.timer.over{color:#f2c66b}.shortcuts{font-size:13px;color:#bdcabb}.progress{height:3px;position:fixed;bottom:0;left:0;background:var(--lime);transition:width .18s ease;width:20%}.status{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);color:#f7ffec;background:#15251f;padding:10px 18px;border-radius:4px;font-size:14px}.status:empty{display:none}
+dialog{border:1px solid #536a56;border-radius:12px;background:#f5f5ed;color:var(--ink);max-width:900px;width:calc(100vw - 36px);max-height:85dvh;padding:35px;box-shadow:0 25px 90px #0007;font-family:inherit}dialog::backdrop{background:#07190dc7}dialog header{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}dialog h2{font-size:26px;line-height:1.4;margin:0}dialog button{background:var(--ink);color:white;border:0;border-radius:5px;padding:10px 17px;font-size:16px}dialog p{font-size:20px;line-height:1.9;white-space:pre-line;word-break:keep-all}dialog .note-time{font-size:15px;color:var(--muted);margin:15px 0 10px}dialog .sources{font-size:14px;overflow-wrap:anywhere;color:var(--muted)}
+@media(max-width:850px){.toolbar{padding:0 12px;height:72px}.screen{height:calc(100dvh - 72px);padding:7px}.shortcuts{display:none}.toolbar button,.toolbar a{padding:8px 10px}.actions{gap:6px}.secondary-control{display:none}.counter{min-width:46px}.nav{gap:5px}}
+@media(prefers-reduced-motion:reduce){.progress{transition:none}}
+@media print{@page{size:1600px 900px;margin:0}html,body{height:auto!important;width:1600px!important;overflow:visible!important;background:white!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}.screen{display:block;height:auto;width:1600px;padding:0}.frame{width:1600px!important;height:auto!important}.deck{position:static;transform:none!important;height:auto;width:1600px}.slide,.slide[hidden]{display:block!important;width:1600px;height:900px;break-after:page;page-break-after:always;break-inside:avoid}.slide:last-child{break-after:auto;page-break-after:auto}.toolbar,.progress,dialog,.status{display:none!important}}
+</style>
+</head>
+<body>
+<main class="screen" aria-label="UX Check 5장 발표자료">
+<div class="frame"><div class="deck">
+<section class="slide cover" aria-labelledby="title-1" data-name="문제와 아이디어">
+  <p class="eyebrow">GS건설 IT운영팀 · Ralphthon 2026</p>
+  <p class="brand">UX Check</p>
+  <h1 id="title-1">사용자 관점으로 검토하는<br>AI UI·UX 검사 도구</h1>
+  <p class="intro">공개 웹 주소와 업무 목적을 입력하면,<br>화면의 불편을 근거 있는 수정 요청으로 정리합니다.</p>
+  <p class="audience">바이브코딩으로 업무 도구를 만드는 임직원과 시스템 운영자를 위해</p>
+  <aside aria-label="해결하려는 현장의 문제">
+    <h2>기능 구현 이후에 남는 일</h2>
+    <p class="problem-line"><strong>발견</strong>처음 쓰는 사람도<br>쉽게 사용할 수 있을까?</p>
+    <p class="problem-line"><strong>설명</strong>“불편하다”는 의견을<br>어떻게 수정 요청으로 바꿀까?</p>
+  </aside>
+  <footer class="folio"><span>문제와 아이디어</span><span>01 / 05</span></footer>
+</section>
+<section class="slide" hidden aria-labelledby="title-2" data-name="검토에서 수정 요청까지">
+  <p class="eyebrow">검토에서 수정 요청까지</p>
+  <h2 id="title-2">어디가 불편한지,<br>어떻게 고칠지 함께 제안합니다</h2>
+  <div class="flow">
+    <article class="step"><div class="step-number">01</div><h3>목적을 전달</h3><p>공개 URL 또는 화면 이미지와<br>사용자가 끝내야 할 업무를<br>입력합니다.</p></article>
+    <article class="step"><div class="step-number">02</div><h3>실제 화면 관찰</h3><p>데스크톱·모바일 화면에서<br>문제 위치와 관찰 근거를<br>수집합니다.</p></article>
+    <article class="step"><div class="step-number">03</div><h3>근거를 재검토</h3><p>AI 초안을 화면과 대조해<br>개선 후보와 추가 확인<br>사항을 구분합니다.</p></article>
+    <article class="step"><div class="step-number">04</div><h3>담당자가 결정</h3><p>채택·보류·제외 판단과<br>수정안·확인 기준을 담아<br>보고서로 저장합니다.</p></article>
+  </div>
+  <div class="purpose"><span>업무 목적 입력 예시</span>“방문자가 채용 정보를 찾고, 지원 방법을 쉽게 확인한다.”</div>
+  <footer class="folio"><span>지정한 공개 페이지 1개 · 데스크톱·모바일 최대 6개 캡처 구간</span><span>02 / 05</span></footer>
+</section>
+<section class="slide" hidden aria-labelledby="title-3" data-name="GS건설 실제 검수 결과">
+  <p class="eyebrow">실제 공개 사이트 검증</p>
+  <div class="evidence-head">
+    <h2 id="title-3">GS건설 홈페이지에서<br>실제로 검수했습니다</h2>
+    <div class="metrics" aria-label="이번 검증 실행 결과">
+      <div class="metric"><strong>4<small>개</small></strong><span>수집한 화면 구간</span></div>
+      <div class="metric"><strong>67.5<small>초</small></strong><span>실제 AI 분석 시간¹</span></div>
+    </div>
+  </div>
+  <div class="evidence">
+    <article class="finding"><p class="decision">담당자 판단 · 개선안 채택</p><h3>투자정보 설명과 목적의 불일치</h3><blockquote>“다양한 이해관계자들로 부터 신뢰를 받기 위한 지속가능경영 원칙을 실천하고 있습니다.”</blockquote><p class="explanation">‘투자정보’를 기대한 방문자에게<br>지속가능경영 설명이 보여 목적지가 불명확합니다.</p><p class="proposal"><b>수정 방향</b>경영실적·공시·주가 등 투자정보의 실제 내용을 설명합니다.</p></article>
+    <article class="finding secondary"><p class="decision">담당자 판단 · 검토에서 제외</p><h3>주가 위젯 공백은 수집 제약</h3><p class="explanation">AI는 주가 정보 미표시를 추가 확인 사항으로 제시했습니다.</p><p class="explanation">원본 사이트와 대조하니 위젯은 정상입니다. 수집 도구가 외부 임베드를 차단해 생긴 차이였습니다.</p><p class="proposal"><b>최종 판단</b>AI 제안을 그대로 확정하지 않고,<br>실제 페이지의 근거와 함께 검토합니다.</p></article>
+  </div>
+  <p class="evidence-scope">¹ 단일 검증 실행의 AI 분석 시간이며, 화면 수집 시간은 제외합니다.</p>
+  <footer class="folio"><span>검사 대상 www.gsenc.com · 담당자 판단을 HTML 보고서에 보존</span><span>03 / 05</span></footer>
+</section>
+<section class="slide" hidden aria-labelledby="title-4" data-name="에이전트 위임과 검증">
+  <p class="eyebrow">에이전트 위임과 검증</p>
+  <h2 id="title-4">완료 기준을 맡기고,<br>실패를 확인해 수정했습니다</h2>
+  <div class="delegation">
+    <div class="goal-brief"><h3>하나의 실제 /goal에 담은 기준</h3><dl class="goal-grid">
+      <div><dt>문제와 사용자</dt><dd>화면 검수와 수정 요청에<br>시간이 드는 업무 담당자</dd></div>
+      <div><dt>완료 상태</dt><dd>검수부터 담당자 판단과<br>보고서 전달까지 작동</dd></div>
+      <div><dt>완료 확인</dt><dd>실제 API·공개 사이트 실행,<br>자동 테스트와 배포 검증</dd></div>
+      <div><dt>제약</dt><dd>회사 기밀·내부망 제외,<br>검증하지 않은 성과 금지</dd></div>
+      <div><dt>판단 범위</dt><dd>구현·수정·검증·배포를<br>에이전트에 위임</dd></div>
+      <div><dt>검증과 종료</dt><dd>실패 수정과 재검증,<br>완료 범위·한계 인계</dd></div>
+    </dl></div>
+    <div class="repairs"><h3>실행 중 발견한 문제와 수정</h3>
+      <div class="repair"><b>한글 누락</b><span>서버 캡처를 직접 확인하고<br>한글 글꼴을 포함했습니다.</span></div>
+      <div class="repair"><b>정상 여백 오탐</b><span>관찰 사실과 업무 장애를 구분해<br>근거 재검토 기준을 보완했습니다.</span></div>
+      <div class="repair"><b>GS건설 수집 실패</b><span>요청·용량 제한을 보완한 뒤<br>공개 배포에서 실제 분석을 확인했습니다.</span></div>
+      <div class="proof"><strong>31</strong><span>개 자동 테스트 통과 · 빌드와 운영 배포 확인</span></div>
+    </div>
+  </div>
+  <footer class="folio"><span>목표 정정과 실행 공백도 로그에 보존 · 테스트 통과는 AI 정확도 보증이 아닙니다</span><span>04 / 05</span></footer>
+</section>
+<section class="slide" hidden aria-labelledby="title-5" data-name="동작 범위와 다음 검증">
+  <p class="eyebrow">동작 범위와 다음 검증</p>
+  <h2 id="title-5">문제 발견부터 수정 요청과<br>개선 전후 검토까지</h2>
+  <div class="scope-grid">
+    <div><h3>현재 동작하는 것</h3><ul class="capabilities"><li><span>01</span>공개 URL 수집과 화면 이미지 검수</li><li><span>02</span>담당자 판단을 담은 보고서 저장</li><li><span>03</span>개선 전후 이미지 비교와 재검토</li></ul></div>
+    <div><h3>별도 검증이 필요한 것</h3><div class="limits"><p>로그인·사내망 접속, 실제 클릭·입력 흐름과 접근성 준수 판정은 이번 범위에 포함하지 않았습니다.</p><p class="next-study"><strong>다음 단계</strong><br>담당자의 검토 시간과 개선안 채택률을 측정해 실무에서의 유용성을 확인합니다.</p></div></div>
+  </div>
+  <div class="closing-link"><a href="https://ux-check-zeta.vercel.app/" target="_blank" rel="noopener noreferrer">ux-check-zeta.vercel.app</a><span>공개 데모에서 직접 확인할 수 있습니다</span></div>
+  <footer class="folio"><span>GS건설 IT운영팀 · 검수 시간 절감률과 AI 정확도는 아직 정량 측정하지 않았습니다</span><span>05 / 05</span></footer>
+</section>
+</div></div>
+</main>
+<nav class="toolbar" aria-label="발표 조작">
+  <div class="nav"><button id="prev" aria-label="이전 슬라이드">←</button><span class="counter" id="counter" aria-live="polite">1 / 5</span><button id="next" aria-label="다음 슬라이드">→</button><span class="shortcuts">← → 이동 · F 전체 화면 · N 메모</span></div>
+  <div class="actions"><button class="timer secondary-control" id="timer" aria-label="발표 타이머 시작">00:00</button><button id="notes">발표 메모</button><button id="fullscreen">전체 화면</button><button id="print" class="secondary-control">인쇄 / PDF</button><button id="download" class="secondary-control">HTML 저장</button></div>
+</nav>
+<div class="progress" aria-hidden="true"></div><div class="status" role="status" id="status"></div>
+<dialog id="notes-dialog" aria-labelledby="notes-title"><header><h2 id="notes-title">발표 메모</h2><button id="close-notes" aria-label="발표 메모 닫기">닫기</button></header><p class="note-time" id="note-time"></p><p id="note-body"></p><p class="sources" id="note-source"></p></dialog>
+<noscript><p style="position:fixed;bottom:85px;left:24px;color:white;background:#123f33;padding:12px">슬라이드 이동에는 JavaScript가 필요합니다. 인쇄 기능으로 5장 전체를 볼 수 있습니다.</p></noscript>
+<script>
+'use strict';
+const notes=[
+ {time:'약 55초 · 문제와 아이디어',text:'GS건설 IT운영팀의 UX Check입니다. 바이브코딩으로 기능을 빠르게 만들 수 있어도, 처음 사용하는 사람의 관점까지 검토하기는 어렵습니다. 운영 담당자는 불편을 찾는 것에 더해, 위치와 업무 영향, 수정 방법을 개발자가 이해할 수 있도록 정리해야 합니다.\n\nUX Check는 이 과정을 돕습니다. 공개 웹 주소와 업무 목적을 입력하면 실제 화면을 확인하고 개선 후보를 근거와 함께 정리합니다. 주요 대상은 업무 도구를 직접 만드는 임직원과 기존 시스템 운영자입니다.',source:'근거: 사용자 현장 문제 설명, docs/problem-and-idea.md.'},
+ {time:'약 55초 · 동작 방식',text:'사용자가 끝내야 할 업무를 먼저 입력합니다. 예를 들어 채용 정보를 찾고 지원 방법을 확인한다는 목적입니다. URL을 받으면 데스크톱과 모바일에서 지정 페이지를 열어 최대 여섯 구간을 관찰합니다.\n\nAI가 초안을 만든 뒤 같은 근거와 다시 대조합니다. 결과에는 문제 위치와 관찰 근거, 업무 영향, 우선순위, 수정안과 확인 기준이 들어갑니다. 담당자는 채택·추가 확인·제외를 정하고 보고서를 저장합니다. 한 페이지의 관찰이며, 실제 버튼을 누르거나 전체 사이트를 순회하는 기능은 아닙니다.',source:'근거: app/page.js, lib/site-capture.js, lib/review-engine.js, 실제 공개 배포.'},
+ {time:'약 70초 · 실제 사례',text:'GS건설 홈페이지를 공개 배포에 입력한 실제 검증 결과입니다. 네 개 화면 구간을 수집했고, 이 실행의 AI 분석에는 67.5초가 걸렸습니다. 이는 한 번의 실행값이며 화면 수집 시간을 포함하지 않습니다.\n\n투자정보 카드의 설명에는 지속가능경영 원칙이라는 내용이 나왔습니다. 원본 페이지에서도 같은 문구를 확인했고, 투자정보의 내용을 설명하도록 바꾸자는 제안을 채택했습니다. 반면 주가 위젯이 비어 보인다는 제안은 제외했습니다. 원본 사이트에서는 정상이고, 수집 도구가 외부 임베드를 차단하면서 생긴 차이였기 때문입니다.\n\nAI의 관찰을 확정된 결함으로 받아들이지 않고, 담당자가 실제 근거를 대조해 판단하는 흐름이 핵심입니다. 두 판단은 HTML 보고서에도 보존됐습니다.',source:'근거: https://www.gsenc.com/ 및 https://ux-check-zeta.vercel.app/ 에서 2026-09-22 실제 실행. docs/execution-log.md, docs/submission-handoff.md.'},
+ {time:'약 70초 · 위임과 검증',text:'실제로 사용한 하나의 /goal에 사용자 문제, 완료 상태, 확인 기준, 제약, 판단 범위, 검증과 종료 조건을 담았습니다. 구현 방식과 실패 수정은 에이전트가 판단하되, 공개 데모의 실제 실행과 검증 결과를 남기도록 했습니다.\n\n실행 과정에서는 한글 누락, 정상 여백 오탐, GS건설 수집 실패를 발견했습니다. 글꼴을 포함하고 근거 재검토 기준을 보완했으며, GS건설의 큰 이미지와 모바일 재수집이 제한에 걸리는 원인을 수정했습니다. 이후 실제 공개 분석 성공을 확인했습니다. 자동 테스트 31개와 빌드, 운영 배포도 통과했습니다.\n\n목표를 URL 중심으로 정정한 이유와 밤중 PC 대기 모드 및 이후 중단 구간을 모두 기록했습니다. 밤샘 무중단 조건은 충족하지 못했으며 공백을 실행 성과로 계산하지 않습니다.',source:'근거: docs/goal-original.txt, docs/goal-amendment-url.md, docs/execution-log.md, tests/review.test.mjs, CI 35676459000.'},
+ {time:'약 50초 · 범위와 다음 단계',text:'현재 공개 URL과 화면 이미지 검수, 담당자 판단을 담은 보고서 저장, 개선 전후 이미지 비교까지 동작합니다. 실제 클릭·입력이나 사내 인증 시스템 접속, 접근성 준수 판정은 범위 밖입니다.\n\n기대 효과는 담당자가 막연한 불편 의견을 구체적인 수정 요청으로 바꾸는 부담을 줄이는 것입니다. 실제 검수 시간 절감률이나 정확도는 아직 측정하지 않았습니다. 다음 단계에서는 담당자의 검토 시간과 개선안 채택률을 측정해 업무에 얼마나 유용한지 확인하겠습니다. 공개 데모와 1분 영상, 코드로 현재 동작 범위를 확인하실 수 있습니다.',source:'데모: https://ux-check-zeta.vercel.app/\n1분 영상: https://ux-check-zeta.vercel.app/demo\n코드: https://github.com/chaeeunkim1/ux-check'}
+];
+const slides=[...document.querySelectorAll('.slide')],counter=document.getElementById('counter'),prev=document.getElementById('prev'),next=document.getElementById('next'),dialog=document.getElementById('notes-dialog'),status=document.getElementById('status');
+let index=0,noticeTimeout,timerStarted=null,elapsed=0;
+function resize(){const region=document.querySelector('.screen');const scale=Math.min((region.clientWidth-24)/1600,(region.clientHeight-24)/900);document.documentElement.style.setProperty('--scale',String(Math.max(.1,scale)));}
+function show(value,writeHash=true){index=Math.max(0,Math.min(slides.length-1,value));slides.forEach((slide,n)=>{slide.hidden=n!==index;slide.setAttribute('aria-hidden',String(n!==index));});counter.textContent=(index+1)+' / '+slides.length;prev.disabled=index===0;next.disabled=index===slides.length-1;document.querySelector('.progress').style.width=((index+1)/slides.length*100)+'%';document.title='UX Check · '+(index+1)+' / 5 · '+slides[index].dataset.name;if(writeHash){try{history.replaceState(null,'','#slide-'+(index+1));}catch{}}}
+function readHash(){const match=location.hash.match(/^#slide-([1-5])$/);show(match?Number(match[1])-1:0,false);}
+function notify(message){clearTimeout(noticeTimeout);status.textContent=message;noticeTimeout=setTimeout(()=>{status.textContent='';},4000);}
+function openNotes(){const note=notes[index];document.getElementById('notes-title').textContent=(index+1)+'. '+slides[index].dataset.name;document.getElementById('note-time').textContent=note.time+' · 전체 약 5분';document.getElementById('note-body').textContent=note.text;document.getElementById('note-source').textContent=note.source;dialog.showModal();document.getElementById('close-notes').focus();}
+async function fullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else notify('브라우저의 전체 화면 기능(F11)을 사용해 주세요.');}catch{notify('브라우저의 전체 화면 기능(F11)을 사용해 주세요.');}}
+function timerValue(){return elapsed+(timerStarted===null?0:performance.now()-timerStarted);}
+function updateTimer(){const seconds=Math.floor(timerValue()/1000),button=document.getElementById('timer');button.textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');button.classList.toggle('over',seconds>=300);button.setAttribute('aria-label','발표 타이머 '+(timerStarted===null?'시작':'일시정지'));button.title='클릭: 시작·일시정지 / R: 초기화';}
+function toggleTimer(){if(timerStarted===null)timerStarted=performance.now();else{elapsed+=performance.now()-timerStarted;timerStarted=null;}updateTimer();}
+prev.addEventListener('click',()=>show(index-1));next.addEventListener('click',()=>show(index+1));document.getElementById('notes').addEventListener('click',openNotes);document.getElementById('close-notes').addEventListener('click',()=>dialog.close());document.getElementById('fullscreen').addEventListener('click',fullscreen);document.getElementById('print').addEventListener('click',()=>window.print());document.getElementById('timer').addEventListener('click',toggleTimer);
+document.getElementById('download').addEventListener('click',()=>{const root=document.documentElement.cloneNode(true);root.querySelector('dialog').removeAttribute('open');const blob=new Blob(['<!doctype html>\n'+root.outerHTML],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='UX-Check-발표자료.html';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+document.addEventListener('keydown',event=>{if(dialog.open||event.altKey||event.ctrlKey||event.metaKey||/INPUT|TEXTAREA|SELECT/.test(event.target.tagName))return;const interactive=event.target.closest('button,a');if(['ArrowRight','PageDown'].includes(event.key)||event.key===' '&&!interactive){event.preventDefault();show(index+1);}else if(['ArrowLeft','PageUp'].includes(event.key)){event.preventDefault();show(index-1);}else if(event.key==='Home'){event.preventDefault();show(0);}else if(event.key==='End'){event.preventDefault();show(slides.length-1);}else if(event.key.toLowerCase()==='f'){event.preventDefault();fullscreen();}else if(event.key.toLowerCase()==='n'){event.preventDefault();openNotes();}else if(event.key.toLowerCase()==='r'){elapsed=0;timerStarted=null;updateTimer();notify('발표 타이머를 초기화했습니다.');}});
+let touchStart=null;document.querySelector('.screen').addEventListener('touchstart',event=>{touchStart={x:event.changedTouches[0].clientX,y:event.changedTouches[0].clientY};},{passive:true});document.querySelector('.screen').addEventListener('touchend',event=>{if(!touchStart||dialog.open)return;const dx=event.changedTouches[0].clientX-touchStart.x,dy=event.changedTouches[0].clientY-touchStart.y;if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)*1.6)show(index+(dx<0?1:-1));touchStart=null;},{passive:true});
+window.addEventListener('resize',resize);window.addEventListener('hashchange',readHash);document.addEventListener('fullscreenchange',()=>{document.getElementById('fullscreen').textContent=document.fullscreenElement?'전체 화면 종료':'전체 화면';resize();});resize();readHash();updateTimer();setInterval(updateTimer,500);
+</script>
+<!-- __FONT_LICENSE__ -->
+</body>
+</html>

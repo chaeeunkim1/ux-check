@@ -6,11 +6,11 @@
 |---|---|
 | 문제와 아이디어 | docs/problem-and-idea.md 본문 |
 | 실제 /goal 원문 | docs/goal-original.txt 전체. URL 중심 정정 이유는 docs/goal-amendment-url.md와 실행 로그에 별도 보존 |
-| 주 세션 JSONL 및 추가 ZIP | artifacts/submission 아래 최종 내보내기 사본. 원본 파일을 직접 제출하지 않음 |
+| 주 세션 JSONL 및 추가 ZIP | 별도 로그 정리 작업에서 검증한 A 세션 JSONL만 사용. 이미지 제거·비밀값 마스킹, B·C 및 ZIP 제외 |
 | 공개 데모 | https://ux-check-zeta.vercel.app/ |
 | 공개 60초 영상 | https://ux-check-zeta.vercel.app/demo |
 | 공개 GitHub | https://github.com/chaeeunkim1/ux-check |
-| 발표자료 | https://ux-check-zeta.vercel.app/ux-check-presentation-submit.pptx |
+| 발표자료 | https://ux-check-zeta.vercel.app/ux-check-presentation.html |
 | 결과물 설명 | 아래 문안 |
 
 ## 결과물 설명 문안
@@ -37,8 +37,8 @@ Windows 대기 모드 및 이후 미확정 중단으로 밤새 연속 실행하�
 ## 제출 직전 사용자 조작
 
 1. 시크릿 창 세 링크 확인은 사용자가 완료했다. 제출 직전 링크를 바꾸면 다시 확인한다.
-2. PPTX를 열어 발표자 이름 등 필요한 정보와 발표 메모를 확인한다.
-3. 대시보드에 문제/아이디어, 실제 /goal 원문, 비밀값을 제거한 주 JSONL·추가 ZIP, 세 공개 링크, 발표자료, 결과 설명을 입력한다.
+2. HTML 발표자료를 열어 전체 화면과 발표 메모를 확인한다.
+3. 대시보드에 문제/아이디어, 실제 /goal 원문, 비밀값을 제거한 주 JSONL, 세 공개 링크, 발표자료, 결과 설명을 입력한다.
 4. 링크와 파일을 다시 확인한 뒤 9월 22일 12시 전에 최종 제출한다. 에이전트는 최종 제출 버튼을 누르지 않았다.
 
 ## 3분 질의응답 준비
@@ -50,7 +50,7 @@ Windows 대기 모드 및 이후 미확정 중단으로 밤새 연속 실행하�
 - 효과는 얼마나 검증했는가? 실제 사이트 및 합성 업무 예제의 기능 실행을 검증했다. 검수 시간 절감률이나 정확도 수치는 아직 측정하지 않았다.
 
 ## 최종 로그 사본
-artifacts/submission/final-20260922-wrapup/main.jsonl 및 additional-sessions.zip을 제출한다. redaction-manifest.json은 원본 보존·행 수·해시·비밀값 치환 설명이다. 최종 실행 기록 이후 새 작업을 하면 최신 사본을 다시 만들어야 한다.
+사용자 선택에 따라 별도 작업 「해커톤 제출 로그 정리」에서 검증한 A 세션 JSONL 하나만 제출한다. 원본 이미지 데이터 제거와 비밀값 마스킹을 구분해 검증하며, B·C와 ZIP은 제출하지 않는다. 이 작업 폴더에 남은 이전 snapshot은 최종 제출본으로 사용하지 않는다.
 
 완료 기준별 증거와 미달한 무중단 실행 조건은 completion-audit.md에 구분했다.
 

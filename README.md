@@ -4,7 +4,7 @@
 
 - 공개 데모: https://ux-check-zeta.vercel.app
 - 60초 시연 영상: https://ux-check-zeta.vercel.app/demo
-- 발표자료: https://ux-check-zeta.vercel.app/ux-check-presentation-submit.pptx
+- 발표자료: https://ux-check-zeta.vercel.app/ux-check-presentation.html
 - GitHub: https://github.com/chaeeunkim1/ux-check
 - 실제 실행 목표 원문: [goal-original.txt](docs/goal-original.txt)
 - 사용자 정정에 따른 URL 중심 범위: [goal-amendment-url.md](docs/goal-amendment-url.md)
