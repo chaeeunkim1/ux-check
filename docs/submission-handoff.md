@@ -10,7 +10,7 @@
 | 공개 데모 | https://ux-check-zeta.vercel.app/ |
 | 공개 60초 영상 | https://ux-check-zeta.vercel.app/demo |
 | 공개 GitHub | https://github.com/chaeeunkim1/ux-check |
-| 발표자료 | https://ux-check-zeta.vercel.app/ux-check-presentation-final.pptx |
+| 발표자료 | https://ux-check-zeta.vercel.app/ux-check-presentation-submit.pptx |
 | 결과물 설명 | 아래 문안 |
 
 ## 결과물 설명 문안
@@ -25,7 +25,7 @@ UX Check는 공개 사이트 URL과 사용 목적을 입력하면 실제 페이�
 - 공개 영상의 시작·30초·끝, 총 60초 및 재생 오류 없음을 확인했다.
 - 공개 GitHub가 로그아웃 상태에서 Public으로 열리고 코드·README가 보였다.
 - 데모·영상 페이지·MP4·PPTX·GitHub를 쿠키/인증 없는 HTTP 요청으로 확인해 모두 200과 실제 내용을 받았다.
-- 발표자료 7장의 렌더와 구조를 확인했다. PowerPoint 앱 직접 실행은 미실시다.
+- 발표자료 5장의 렌더와 구조를 확인했다. PowerPoint 앱 직접 실행은 미실시다.
 - 사용자가 새 시크릿 창에서 데모 실행·영상 재생·공개 저장소 열람을 모두 정상 확인했다고 회신했다. 대회 최종 제출은 사용자에게 남아 있다.
 
 ## 알려진 한계

@@ -4,7 +4,7 @@
 
 - 공개 데모: https://ux-check-zeta.vercel.app
 - 60초 시연 영상: https://ux-check-zeta.vercel.app/demo
-- 발표자료: https://ux-check-zeta.vercel.app/ux-check-presentation-final.pptx
+- 발표자료: https://ux-check-zeta.vercel.app/ux-check-presentation-submit.pptx
 - GitHub: https://github.com/chaeeunkim1/ux-check
 - 실제 실행 목표 원문: [goal-original.txt](docs/goal-original.txt)
 - 사용자 정정에 따른 URL 중심 범위: [goal-amendment-url.md](docs/goal-amendment-url.md)
@@ -20,7 +20,7 @@
 - 개선 전후 비교와 HTML/Markdown/JSON 보고서 다운로드
 - 입력·이미지 형식 및 용량 검증, 오류 안내, 요청 제한
 
-현재 해커톤 진행 중이며, 공개 배포와 실제 분석 검증 범위는 실행 기록을 확인하세요. 60초 시연 영상과 발표자료 7장을 제공합니다. 영상은 실제 사용 화면을 캡처해 편집했으며 분석 대기 시간을 생략했습니다. 스크린샷 검수 결과는 실제 클릭 동작, 사용자 행동, 접근성 준수를 보증하지 않습니다. 이미지 위치 표시는 근사치이며 담당자의 확인이 필요합니다.
+현재 해커톤 진행 중이며, 공개 배포와 실제 분석 검증 범위는 실행 기록을 확인하세요. 60초 시연 영상과 발표자료 5장을 제공합니다. 영상은 실제 사용 화면을 캡처해 편집했으며 분석 대기 시간을 생략했습니다. 스크린샷 검수 결과는 실제 클릭 동작, 사용자 행동, 접근성 준수를 보증하지 않습니다. 이미지 위치 표시는 근사치이며 담당자의 확인이 필요합니다.
 
 ## 실행
 
