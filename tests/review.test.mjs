@@ -171,3 +171,13 @@ test('one invalid AI region is omitted with disclosure instead of losing all fin
  assert.deepEqual(result.issues,[good]);assert.match(result.limitations.at(-1),/1개를 제외/);
  assert.deepEqual(bad.region,{x:95,y:10,width:30,height:20});
 });
+
+test('final summary follows retained evidence and does not revive removed claims',async()=>{
+ const {applyAudit,summarizeVerifiedIssues}=await import('../lib/review-audit.js');
+ const initial={...report,issues:[{...finding,number:1},{...finding,number:2}]};
+ const result=applyAudit(initial,{summary:'제외된 주장도 반드시 수정해야 합니다.',checks:[{number:1,verdict:'unsupported',title:'제외된 주장',severity:'low',reason:'근거 없음'},{number:2,verdict:'uncertain',title:'불확실한 관찰',severity:'low',reason:'수집 제약'}]},'review');
+ assert.doesNotMatch(result.summary,/제외된 주장|반드시 수정/);
+ assert.match(result.summary,/확정하기 어려운/);assert.match(result.summary,/1개/);
+ assert.match(summarizeVerifiedIssues([],'site'),/뚜렷한 수정 필요 사항을 찾지 못/);
+ assert.match(summarizeVerifiedIssues([{status:'resolved'},{status:'uncertain'}],'compare'),/개선 확인 1개.*추가 확인 1개/);
+});
