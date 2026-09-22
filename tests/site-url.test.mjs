@@ -27,3 +27,17 @@ test('site scrolling is bounded and does not imply full-page coverage',async()=>
  assert.deepEqual(captureOffsets(80000,900),[0,5550,11100]);
  assert.match(describeSiteScope([1,2,3,4,5,6]),/6개 캡처 구간/);assert.match(describeSiteScope([1,2]),/클릭 및 입력 미실행/);
 });
+
+test('mobile document reload keeps a fresh resource allowance and a total ceiling',async()=>{
+ const {createCaptureRequestBudget}=await import('../lib/capture-budget.js');
+ const budget=createCaptureRequestBudget();
+ for(let i=0;i<170;i++)assert.equal(budget.take(),true);
+ budget.startViewport();
+ // This navigation used to be blocked by the cumulative 120-request limit.
+ assert.equal(budget.take(),true);
+ for(let i=0;i<179;i++)assert.equal(budget.take(),true);
+ assert.equal(budget.take(),false);
+ budget.startViewport();
+ for(let i=0;i<9;i++)assert.equal(budget.take(),true);
+ assert.equal(budget.take(),false);
+});
